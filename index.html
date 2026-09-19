@@ -3,49 +3,334 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>첫 Vercel 배포</title>
+    <meta name="description" content="BMW 디자인 시스템의 명료한 그리드와 Vercel의 빠른 배포 경험을 결합한 소개 페이지입니다." />
+    <title>Vercel Hello — Launch faster</title>
     <style>
-      :root { color-scheme: light; }
+      :root {
+        color-scheme: light;
+        --blue: #0066b1;
+        --blue-deep: #004b86;
+        --ink: #161d26;
+        --muted: #5f6874;
+        --line: #d7dce2;
+        --canvas: #f5f6f7;
+        --navy: #101b29;
+        --white: #fff;
+        --red: #e1251b;
+        --page-width: 1440px;
+      }
+
       * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
-        display: grid;
-        min-height: 100vh;
         margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.45;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; }
+      .page-shell {
+        width: min(100%, var(--page-width));
+        margin: 0 auto;
+        background: var(--white);
+        box-shadow: 0 0 0 1px var(--line);
+      }
+
+      .topbar {
+        display: flex;
+        min-height: 72px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 0 48px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, .96);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .12em;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 28px;
+        aspect-ratio: 1;
         place-items: center;
-        background: #f5f7ff;
-        color: #18223b;
-        font-family: system-ui, sans-serif;
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        color: var(--blue);
+        font-size: 10px;
+        letter-spacing: 0;
       }
-      main {
-        width: min(90%, 38rem);
-        padding: 3rem;
-        text-align: center;
-        background: white;
-        border-radius: 1.25rem;
-        box-shadow: 0 12px 40px rgb(35 55 110 / 12%);
+
+      .nav-links { display: flex; gap: 28px; font-size: 12px; font-weight: 700; }
+      .nav-links a:hover { color: var(--blue); }
+      .nav-cta { display: none; }
+
+      .hero {
+        position: relative;
+        display: grid;
+        min-height: 570px;
+        grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+        overflow: hidden;
+        background: var(--navy);
+        color: var(--white);
       }
-      h1 { margin-top: 0; }
-      button {
-        padding: .75rem 1rem;
-        border: 0;
-        border-radius: .6rem;
-        background: #000;
-        color: #fff;
+
+      .hero-copy {
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 72px 48px 64px;
+      }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        color: #a8ccef;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .16em;
+      }
+
+      h1, h2, h3, p { margin-top: 0; }
+      h1 {
+        max-width: 650px;
+        margin-bottom: 20px;
+        font-size: clamp(46px, 6vw, 88px);
+        font-weight: 700;
+        letter-spacing: -.065em;
+        line-height: .94;
+      }
+      .hero-copy > p:not(.eyebrow) { max-width: 460px; margin-bottom: 32px; color: #d4dbe4; font-size: 17px; }
+
+      .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
+      .button {
+        display: inline-flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 21px;
+        border: 1px solid transparent;
         cursor: pointer;
-        font: inherit;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        transition: background .2s, border-color .2s, color .2s, transform .2s;
+      }
+      .button:hover { transform: translateY(-2px); }
+      .button-primary { background: var(--blue); color: var(--white); }
+      .button-primary:hover { background: #1479c6; }
+      .button-secondary { border-color: rgba(255,255,255,.8); color: var(--white); }
+      .button-secondary:hover { background: var(--white); color: var(--ink); }
+
+      .hero-visual {
+        position: relative;
+        min-height: 390px;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(1, 102, 177, .15), transparent 50%),
+          radial-gradient(circle at 60% 42%, rgba(33, 126, 202, .5), transparent 10%),
+          linear-gradient(145deg, #263d56 0%, #142333 48%, #0c141f 100%);
+      }
+      .hero-visual::before {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+        background-size: 44px 44px;
+        content: "";
+        mask-image: linear-gradient(to left, black, transparent 85%);
+      }
+      .orb {
+        position: absolute;
+        width: min(42vw, 510px);
+        aspect-ratio: 1;
+        right: -8%;
+        top: 14%;
+        border: 1px solid rgba(255,255,255,.25);
+        border-radius: 50%;
+        box-shadow: inset 0 0 100px rgba(81, 168, 237, .3), 0 0 90px rgba(0, 102, 177, .3);
+      }
+      .orb::after { position: absolute; inset: 14%; border: 1px solid rgba(255,255,255,.23); border-radius: 50%; content: ""; }
+      .road { position: absolute; right: -15%; bottom: 14%; width: 116%; height: 1px; background: rgba(255,255,255,.6); transform: rotate(-17deg); }
+      .vehicle {
+        position: absolute;
+        right: 11%;
+        bottom: 22%;
+        width: min(41vw, 520px);
+        height: 155px;
+        border: 2px solid rgba(240,249,255,.95);
+        border-radius: 42% 58% 17% 16% / 72% 74% 27% 24%;
+        background: linear-gradient(150deg, rgba(103,178,230,.7), rgba(20,39,57,.1) 35%, rgba(255,255,255,.23));
+        box-shadow: 0 22px 45px rgba(0,0,0,.35);
+        transform: skewX(-7deg);
+      }
+      .vehicle::before, .vehicle::after { position: absolute; bottom: -25px; width: 72px; height: 72px; border: 9px solid #0b1118; border-radius: 50%; background: #7a8793; box-shadow: inset 0 0 0 8px #d7e3ee; content: ""; }
+      .vehicle::before { left: 13%; }
+      .vehicle::after { right: 12%; }
+      .window { position: absolute; top: 18px; left: 31%; width: 41%; height: 48px; border: 1px solid #dbf2ff; border-radius: 45% 50% 5% 5%; background: rgba(7, 25, 40, .75); }
+      .visual-label { position: absolute; right: 10%; top: 9%; color: #d6ebfc; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
+
+      .stripe { display: flex; height: 6px; }
+      .stripe i { display: block; width: 31px; }
+      .stripe i:nth-child(1) { background: #1e61af; }
+      .stripe i:nth-child(2) { background: #6b9dd2; }
+      .stripe i:nth-child(3) { background: var(--red); }
+
+      .section { padding: 76px 48px; border-bottom: 1px solid var(--line); }
+      .section-heading { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 42px; }
+      .section-kicker { color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .15em; }
+      .section-heading h2 { margin-bottom: 12px; font-size: clamp(32px, 4vw, 52px); letter-spacing: -.055em; line-height: .98; }
+      .section-heading p { max-width: 580px; margin: 0; color: var(--muted); font-size: 16px; }
+
+      .model-grid { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+      .model-card { min-height: 282px; padding: 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); transition: background .2s; }
+      .model-card:hover { background: #f0f7fc; }
+      .card-art { position: relative; height: 132px; margin: 0 -18px 24px; overflow: hidden; background: linear-gradient(145deg, #263746, #111c27); }
+      .card-art::before { position: absolute; width: 130%; height: 70px; left: -12%; bottom: 17px; border: 1px solid rgba(255,255,255,.65); border-radius: 65% 48% 14% 12%; content: ""; transform: rotate(-6deg); }
+      .card-art::after { position: absolute; right: 10%; bottom: 0; width: 42px; height: 42px; border: 5px solid #111923; border-radius: 50%; background: #d7e1e8; box-shadow: -150px 7px 0 -1px #d7e1e8, -150px 7px 0 4px #111923; content: ""; }
+      .model-card:nth-child(2) .card-art { background: linear-gradient(145deg, #2b6090, #142436); }
+      .model-card:nth-child(3) .card-art { background: linear-gradient(145deg, #abcedd, #315264); }
+      .model-card:nth-child(4) .card-art { background: linear-gradient(145deg, #aaba99, #3e503e); }
+      .model-card:nth-child(5) .card-art { background: linear-gradient(145deg, #373941, #16191f); }
+      .model-label { margin-bottom: 8px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+      .model-card h3 { margin-bottom: 20px; font-size: 20px; letter-spacing: -.04em; }
+      .text-link { color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+      .text-link:hover { color: var(--blue-deep); }
+
+      .launch-panel { display: grid; grid-template-columns: 1.25fr .75fr; margin: 0 -48px; background: var(--navy); color: var(--white); }
+      .launch-main { padding: 70px 48px; }
+      .launch-main h2 { max-width: 650px; margin-bottom: 16px; font-size: clamp(39px, 4.5vw, 67px); letter-spacing: -.065em; line-height: .95; }
+      .launch-main p { max-width: 560px; color: #c8d2de; }
+      .launch-meta { display: grid; align-content: end; gap: 26px; padding: 48px; border-left: 1px solid rgba(255,255,255,.2); }
+      .meta-number { margin: 0 0 2px; font-size: 38px; font-weight: 700; letter-spacing: -.06em; }
+      .meta-label { margin: 0; color: #b5c5d4; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+
+      .data-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+      .data-cell { min-height: 140px; padding: 22px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .data-value { margin: 28px 0 0; font-size: 30px; font-weight: 700; letter-spacing: -.055em; }
+      .data-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+
+      .contact { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 56px 48px; background: var(--navy); color: var(--white); }
+      .contact h2 { margin: 0; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.055em; }
+      .contact .button { flex: 0 0 auto; }
+      .status { min-height: 24px; margin: 16px 0 0; color: #b5d9f5; font-size: 13px; }
+      .footer { display: flex; justify-content: space-between; gap: 24px; padding: 23px 48px; color: var(--muted); font-size: 11px; }
+
+      @media (max-width: 900px) {
+        .topbar, .hero-copy, .section, .contact, .footer { padding-left: 26px; padding-right: 26px; }
+        .nav-links { display: none; }
+        .nav-cta { display: inline; color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+        .hero { grid-template-columns: 1fr; }
+        .hero-copy { min-height: 480px; }
+        .hero-visual { min-height: 350px; }
+        .section-heading { grid-template-columns: 1fr; }
+        .model-grid { grid-template-columns: repeat(2, 1fr); }
+        .launch-panel { grid-template-columns: 1fr; margin-left: -26px; margin-right: -26px; }
+        .launch-main, .launch-meta { padding-left: 26px; padding-right: 26px; }
+        .launch-meta { grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255,255,255,.2); border-left: 0; }
+      }
+
+      @media (max-width: 560px) {
+        .topbar { min-height: 62px; }
+        .hero-copy { min-height: 440px; padding-top: 50px; padding-bottom: 48px; }
+        .hero-visual { min-height: 260px; }
+        .vehicle { right: 4%; width: 88vw; }
+        .section { padding-top: 54px; padding-bottom: 54px; }
+        .model-grid, .data-grid { grid-template-columns: 1fr; }
+        .launch-meta { grid-template-columns: 1fr; }
+        .contact, .footer { align-items: flex-start; flex-direction: column; }
+        .contact .button { width: 100%; }
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>안녕하세요, Vercel!</h1>
-      <p>GitHub → Vercel 자동 배포 테스트 페이지입니다.</p>
-      <button type="button" id="test-button">버튼을 눌러 보세요</button>
-      <p id="message" aria-live="polite"></p>
-    </main>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Vercel Hello 홈"><span class="brand-mark">V</span> VERCEL HELLO</a>
+        <nav class="nav-links" aria-label="주요 메뉴">
+          <a href="#experience">EXPERIENCE</a>
+          <a href="#launch">LAUNCH</a>
+          <a href="#contact">CONTACT</a>
+        </nav>
+        <a class="nav-cta" href="#contact">START ›</a>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow">THE NEW STANDARD FOR THE WEB</p>
+            <h1 id="hero-title">Build the moment.<br />Ship the future.</h1>
+            <p>명료한 디자인과 빠른 배포. 아이디어가 제품이 되는 가장 짧은 경로를 경험하세요.</p>
+            <div class="button-row">
+              <a class="button button-primary" href="#launch">프로젝트 시작하기</a>
+              <a class="button button-secondary" href="#experience">더 알아보기</a>
+            </div>
+          </div>
+          <div class="hero-visual" aria-label="속도와 기술을 상징하는 추상적인 비주얼">
+            <span class="visual-label">PERFORMANCE / 01</span>
+            <div class="orb"></div><div class="road"></div>
+            <div class="vehicle"><div class="window"></div></div>
+          </div>
+        </section>
+        <div class="stripe" aria-hidden="true"><i></i><i></i><i></i></div>
+
+        <section class="section" id="experience" aria-labelledby="experience-title">
+          <div class="section-heading">
+            <span class="section-kicker">01 / EXPERIENCE</span>
+            <div><h2 id="experience-title">필요한 것만,<br />정확하게.</h2><p>BMW 디자인 시스템에서 영감을 받은 단단한 그리드와 선명한 대비로, 중요한 콘텐츠에 시선이 바로 닿도록 설계했습니다.</p></div>
+          </div>
+          <div class="model-grid">
+            <article class="model-card"><div class="card-art"></div><p class="model-label">DESIGN</p><h3>명확한 계층</h3><a class="text-link" href="#launch">LEARN MORE ›</a></article>
+            <article class="model-card"><div class="card-art"></div><p class="model-label">SPEED</p><h3>즉시 배포</h3><a class="text-link" href="#launch">LEARN MORE ›</a></article>
+            <article class="model-card"><div class="card-art"></div><p class="model-label">SCALE</p><h3>글로벌 엣지</h3><a class="text-link" href="#launch">LEARN MORE ›</a></article>
+            <article class="model-card"><div class="card-art"></div><p class="model-label">FLOW</p><h3>끊김 없는 협업</h3><a class="text-link" href="#launch">LEARN MORE ›</a></article>
+            <article class="model-card"><div class="card-art"></div><p class="model-label">CONTROL</p><h3>안전한 운영</h3><a class="text-link" href="#launch">LEARN MORE ›</a></article>
+          </div>
+        </section>
+
+        <section class="section" id="launch" aria-labelledby="launch-title">
+          <div class="launch-panel">
+            <div class="launch-main">
+              <p class="eyebrow">VERCEL / PRODUCTION READY</p>
+              <h2 id="launch-title">오늘 만든 경험을<br />오늘 세상에.</h2>
+              <p>정적 HTML 한 장에서 시작해도 충분합니다. GitHub에서 변경하고, Vercel이 전 세계에 전달합니다.</p>
+              <div class="button-row"><button class="button button-primary" id="test-button" type="button">배포 상태 확인</button><a class="button button-secondary" href="https://github.com/one4me1518/vercel-hello" target="_blank" rel="noreferrer">GITHUB 열기</a></div>
+              <p class="status" id="message" aria-live="polite"></p>
+            </div>
+            <aside class="launch-meta" aria-label="배포 지표">
+              <div><p class="meta-number">0s</p><p class="meta-label">TO START</p></div>
+              <div><p class="meta-number">1</p><p class="meta-label">HTML FILE</p></div>
+              <div><p class="meta-number">∞</p><p class="meta-label">POSSIBILITIES</p></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="data-title">
+          <div class="section-heading"><span class="section-kicker">02 / TECHNICAL DATA</span><div><h2 id="data-title">가볍게, 그러나<br />빈틈없이.</h2><p>의미 있는 숫자만 남긴 테크니컬 그리드는 페이지의 상태와 가치를 빠르게 전달합니다.</p></div></div>
+          <div class="data-grid">
+            <div class="data-cell"><span class="data-label">DEPLOYMENT</span><p class="data-value">READY</p></div>
+            <div class="data-cell"><span class="data-label">DELIVERY</span><p class="data-value">EDGE</p></div>
+            <div class="data-cell"><span class="data-label">STACK</span><p class="data-value">HTML</p></div>
+            <div class="data-cell"><span class="data-label">STATUS</span><p class="data-value">LIVE</p></div>
+          </div>
+        </section>
+      </main>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title"><h2 id="contact-title">다음 프로젝트를<br />출발시킬 준비가 되셨나요?</h2><a class="button button-secondary" href="mailto:hello@example.com">GET IN TOUCH ›</a></section>
+      <footer class="footer"><span>© 2026 VERCEL HELLO</span><span>DESIGNED FOR CLARITY · BUILT TO SHIP</span></footer>
+    </div>
     <script>
       document.querySelector('#test-button').addEventListener('click', () => {
-        document.querySelector('#message').textContent = '정상적으로 동작합니다 🎉';
+        document.querySelector('#message').textContent = '정상적으로 배포되어 있습니다. 지금 이 순간에도 전 세계에서 열립니다.';
       });
     </script>
   </body>
